@@ -1891,7 +1891,9 @@ func (c *client) WatchGlobalConfig(ctx context.Context) (chan []GlobalConfigItem
 }
 
 func (c *client) GetExternalTimestamp(ctx context.Context) (uint64, error) {
-	resp, err := c.getClient().GetExternalTimestamp(ctx, &pdpb.GetExternalTimestampRequest{})
+	resp, err := c.getClient().GetExternalTimestamp(ctx, &pdpb.GetExternalTimestampRequest{
+		Header: c.requestHeader(),
+	})
 	if err != nil {
 		return 0, err
 	}
@@ -1903,7 +1905,8 @@ func (c *client) GetExternalTimestamp(ctx context.Context) (uint64, error) {
 }
 
 func (c *client) SetExternalTimestamp(ctx context.Context, timestamp uint64) error {
-	resp, err := c.getClient().SetExternalTimestamp(ctx, &pdpb.SetExternalTimestampRequest{Timestamp: timestamp})
+	resp, err := c.getClient().SetExternalTimestamp(ctx, &pdpb.SetExternalTimestampRequest{Timestamp: timestamp,
+		Header: c.requestHeader()})
 	if err != nil {
 		return err
 	}
